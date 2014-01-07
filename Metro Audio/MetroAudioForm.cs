@@ -232,7 +232,7 @@ namespace MetroAudio
         {
             int itemIndex = ListBoxPlayList.SelectedIndex;
             int playListCount = ListBoxPlayList.Items.Count - 1;
-            if (itemIndex >= 0 && itemIndex <= playListCount)
+            if (itemIndex >= 0 && itemIndex < playListCount && itemIndex != playListCount)
             {
                 int nextItem = itemIndex + 1;
                 nextItem = nextItem <= playListCount ? (nextItem) : (playListCount);
@@ -241,6 +241,17 @@ namespace MetroAudio
                 ListBoxPlayList.SetSelected(nextItem, true);
                 m_Logger.Info("Going to the next playlist item {0}", ListBoxPlayList.SelectedIndex);
                 ButtonPlay.PerformClick();
+            }
+            else if (itemIndex >= 0)
+            {
+                if (ToggleOptionsRepeat.Checked)
+                {
+                    int nextItem = 0;
+                    ListBoxPlayList.ClearSelected();
+                    ListBoxPlayList.SetSelected(nextItem, true);
+                    m_Logger.Info("Going to the next playlist item {0}", ListBoxPlayList.SelectedIndex);
+                    ButtonPlay.PerformClick();
+                }
             }
         }
 
@@ -255,6 +266,12 @@ namespace MetroAudio
                     + " / " +
                     currentMedia.Stream.WaveStream.TotalTime.ToString(@"hh\:mm\:ss")
                     + " | " + currentMedia.ToString();
+                TrackBarProgress.Enabled = false;
+
+                if (currentMedia.Stream.WaveStream.CurrentTime == currentMedia.Stream.WaveStream.TotalTime)
+                {
+                    ButtonNext.PerformClick();
+                }
             }
         }
 
