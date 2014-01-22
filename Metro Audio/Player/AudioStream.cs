@@ -1,4 +1,5 @@
 ﻿using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Experia.Framework.Audio
     {
         public IWavePlayer DeviceHandle;
         public WaveStream WaveStream;
-        public WaveChannel32 VolumeStream;
+        public SampleChannel VolumeStream;
         public AudioFileReader FallBackStream;
     }
 }

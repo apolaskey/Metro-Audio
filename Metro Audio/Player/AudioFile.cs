@@ -1,6 +1,9 @@
-﻿using Experia.Framework.Content;
+﻿using BigMansStuff.NAudio.Ogg;
+using Experia.Framework.Content;
 using Experia.Framework.Debug;
 using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
+using NAudio.WindowsMediaFormat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,15 +25,6 @@ namespace Experia.Framework.Audio
         public AudioStream Stream
         {
             get { return m_Stream; }
-        }
-
-        public float Volume
-        {
-            get { return m_Stream.VolumeStream.Volume; }
-            set
-            {
-                m_Stream.VolumeStream.Volume = value;
-            }
         }
 
         public String Location
@@ -62,10 +56,13 @@ namespace Experia.Framework.Audio
                     m_Stream = CreateFlacInputStream(location);
                     break;
                 case "ogg":
-                    //m_Stream = CreateOggInputStream(location);
+                    m_Stream = CreateOggInputStream(location);
                     break;
                 case "aiff":
                     m_Stream = CreateAiffInputStream(location);
+                    break;
+                case "wma":
+                    m_Stream = CreateWmaInputStream(location);
                     break;
                 default:
                     m_Logger.Warn("Failed to find strong type conversion for audio format [{0}] attempting a deep file read!", a.ToLower());
@@ -104,11 +101,29 @@ namespace Experia.Framework.Audio
             try
             {
                 stream.WaveStream = new WaveFileReader(location);
-                stream.VolumeStream = new WaveChannel32(stream.WaveStream);
+                stream.VolumeStream = new SampleChannel(stream.WaveStream, true);
             }
             catch(Exception e)
             {
                 m_Logger.Error("Failed to load *.wav Audio Asset - {0}{1}{2}", location,Environment.NewLine, e);
+            }
+
+            return stream;
+        }
+
+        protected static AudioStream CreateWmaInputStream(String location)
+        {
+            AudioStream stream = new AudioStream();
+            try
+            {
+                stream.WaveStream = new WMAFileReader(location);
+                stream.DeviceHandle = new WaveOutEvent();
+                stream.DeviceHandle.Init(stream.WaveStream);
+                stream.VolumeStream = new SampleChannel(stream.WaveStream, true);
+            }
+            catch (Exception e)
+            {
+                m_Logger.Error("Failed to load *.wma Audio Asset - {0}{1}{2}", location, Environment.NewLine, e);
             }
 
             return stream;
@@ -119,8 +134,11 @@ namespace Experia.Framework.Audio
             AudioStream stream = new AudioStream();
             try
             {
-                stream.WaveStream = new Mp3FileReader(location);
-                stream.VolumeStream = new WaveChannel32(stream.WaveStream);
+                stream.WaveStream = new Mp3FileReader(location); 
+                stream.DeviceHandle = new WaveOutEvent();
+                stream.DeviceHandle.Init(stream.WaveStream);
+                stream.VolumeStream = new SampleChannel(stream.WaveStream, true);
+                
             }
             catch (Exception e)
             {
@@ -136,7 +154,9 @@ namespace Experia.Framework.Audio
             try
             {
                 stream.WaveStream = new AiffFileReader(location);
-                stream.VolumeStream = new WaveChannel32(stream.WaveStream);
+                stream.DeviceHandle = new WaveOutEvent();
+                stream.DeviceHandle.Init(stream.WaveStream);
+                stream.VolumeStream = new SampleChannel(stream.WaveStream, true);
             }
             catch (Exception e)
             {
@@ -152,7 +172,9 @@ namespace Experia.Framework.Audio
             try
             {
                 stream.WaveStream = new FLACFileReader(location);
-                stream.VolumeStream = new WaveChannel32(stream.WaveStream);
+                stream.DeviceHandle = new WaveOutEvent();
+                stream.DeviceHandle.Init(stream.WaveStream);
+                stream.VolumeStream = new SampleChannel(stream.WaveStream, true);
             }
             catch (Exception e)
             {
@@ -160,20 +182,23 @@ namespace Experia.Framework.Audio
             }
             return stream;
         }
-        // For another day my friends
-        /*protected static AudioStream CreateOggInputStream(String location)
+
+        protected static AudioStream CreateOggInputStream(String location)
         {
             AudioStream stream = new AudioStream();
             try
             {
-
+                stream.WaveStream = new OggFileReader(location);
+                stream.DeviceHandle = new WaveOutEvent();
+                stream.DeviceHandle.Init(stream.WaveStream);
+                stream.VolumeStream = new SampleChannel(stream.WaveStream, true);
             }
             catch (Exception e)
             {
-                m_Logger.Error("Failed to load *.flac Audio Asset - {0}{1}{2}", location, Environment.NewLine, e);
+                m_Logger.Error("Failed to load *.ogg Audio Asset - {0}{1}{2}", location, Environment.NewLine, e);
             }
             return stream;
-        }*/
+        }
 
     }
 }

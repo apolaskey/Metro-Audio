@@ -8,6 +8,9 @@ using Experia.Framework.Debug;
 
 namespace Experia.Framework.Audio
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class AudioPlayer
     {
         private static Logger m_Logger = Logger.CreateLoggerFromClass();
@@ -26,19 +29,7 @@ namespace Experia.Framework.Audio
         {
             if (file.Stream.DeviceHandle.PlaybackState != PlaybackState.Playing)
             {
-                try
-                {
-                    file.Stream.DeviceHandle.Play();
-                }
-                catch (Exception e)
-                {
-                    m_Logger.Warn("A device error as occurred!{0}{1}", Environment.NewLine, e);
-                    m_Logger.Warn("Attempting to playback via OS default device!");
-                    file.Stream.DeviceHandle.Init(file.Stream.WaveStream);
-                    //WaveOut.DeviceCount
-                    //WaveOut.GetCapabilities
-                    //TODO: Use the above to get detailed audio device info
-                }
+                file.Stream.DeviceHandle.Play();
             }
             return file.Stream.DeviceHandle.PlaybackState;
         }
@@ -76,9 +67,7 @@ namespace Experia.Framework.Audio
         public AudioFile LoadSound(String location)
         {
             AudioFile file = new AudioFile();
-            file.Load(location); 
-            file.Stream.DeviceHandle = new WaveOut();
-            file.Stream.DeviceHandle.Init(file.Stream.WaveStream);
+            file.Load(location);
             m_Logger.Info("Successfully loaded AudioFile - {0} into player.", location);
 
             return file;

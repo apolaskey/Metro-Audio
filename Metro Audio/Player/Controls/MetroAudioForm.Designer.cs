@@ -61,12 +61,22 @@
             this.TextBoxFilter = new MetroFramework.Controls.MetroTextBox();
             this.TrackBarVolume = new MetroFramework.Controls.MetroTrackBar();
             this.TimerUpdate = new System.Windows.Forms.Timer(this.components);
+            this.BackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.SpinnerListBox = new MetroFramework.Controls.MetroProgressSpinner();
+            this.RadioButtonKeysBound = new MetroFramework.Controls.MetroRadioButton();
+            this.LabelSampleRate = new MetroFramework.Controls.MetroLabel();
+            this.LabelSampleRateValue = new MetroFramework.Controls.MetroLabel();
+            this.LabelBitRateValue = new MetroFramework.Controls.MetroLabel();
+            this.LabelBitRate = new MetroFramework.Controls.MetroLabel();
+            this.LabelEncodingValue = new MetroFramework.Controls.MetroLabel();
+            this.LabelEncoding = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.MetroStyleManager)).BeginInit();
             this.metroPanel1.SuspendLayout();
             this.metroPanel4.SuspendLayout();
             this.metroPanel3.SuspendLayout();
             this.TabControlMedia.SuspendLayout();
             this.TabPlayerOptions.SuspendLayout();
+            this.TabMediaInfo.SuspendLayout();
             this.metroPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -164,7 +174,7 @@
             this.TabControlMedia.Dock = System.Windows.Forms.DockStyle.Top;
             this.TabControlMedia.Location = new System.Drawing.Point(0, 0);
             this.TabControlMedia.Name = "TabControlMedia";
-            this.TabControlMedia.SelectedIndex = 0;
+            this.TabControlMedia.SelectedIndex = 1;
             this.TabControlMedia.Size = new System.Drawing.Size(494, 383);
             this.TabControlMedia.TabIndex = 1;
             // 
@@ -189,7 +199,7 @@
             // 
             this.ComboBoxOptionsTheme.FormattingEnabled = true;
             this.ComboBoxOptionsTheme.ItemHeight = 23;
-            this.ComboBoxOptionsTheme.Location = new System.Drawing.Point(7, 83);
+            this.ComboBoxOptionsTheme.Location = new System.Drawing.Point(2, 87);
             this.ComboBoxOptionsTheme.Name = "ComboBoxOptionsTheme";
             this.ComboBoxOptionsTheme.Size = new System.Drawing.Size(172, 29);
             this.ComboBoxOptionsTheme.TabIndex = 7;
@@ -198,7 +208,7 @@
             // LabelOptionsTheme
             // 
             this.LabelOptionsTheme.AutoSize = true;
-            this.LabelOptionsTheme.Location = new System.Drawing.Point(4, 61);
+            this.LabelOptionsTheme.Location = new System.Drawing.Point(-1, 65);
             this.LabelOptionsTheme.Name = "LabelOptionsTheme";
             this.LabelOptionsTheme.Size = new System.Drawing.Size(92, 19);
             this.LabelOptionsTheme.TabIndex = 6;
@@ -207,7 +217,7 @@
             // LabelOptionsShuffle
             // 
             this.LabelOptionsShuffle.AutoSize = true;
-            this.LabelOptionsShuffle.Location = new System.Drawing.Point(4, 40);
+            this.LabelOptionsShuffle.Location = new System.Drawing.Point(-1, 44);
             this.LabelOptionsShuffle.Name = "LabelOptionsShuffle";
             this.LabelOptionsShuffle.Size = new System.Drawing.Size(94, 19);
             this.LabelOptionsShuffle.TabIndex = 5;
@@ -216,7 +226,7 @@
             // ToggleOptionsShuffle
             // 
             this.ToggleOptionsShuffle.AutoSize = true;
-            this.ToggleOptionsShuffle.Location = new System.Drawing.Point(99, 42);
+            this.ToggleOptionsShuffle.Location = new System.Drawing.Point(94, 46);
             this.ToggleOptionsShuffle.Name = "ToggleOptionsShuffle";
             this.ToggleOptionsShuffle.Size = new System.Drawing.Size(80, 17);
             this.ToggleOptionsShuffle.TabIndex = 4;
@@ -226,7 +236,7 @@
             // LabelOptionsRepeat
             // 
             this.LabelOptionsRepeat.AutoSize = true;
-            this.LabelOptionsRepeat.Location = new System.Drawing.Point(4, 17);
+            this.LabelOptionsRepeat.Location = new System.Drawing.Point(-1, 21);
             this.LabelOptionsRepeat.Name = "LabelOptionsRepeat";
             this.LabelOptionsRepeat.Size = new System.Drawing.Size(96, 19);
             this.LabelOptionsRepeat.TabIndex = 3;
@@ -237,7 +247,7 @@
             this.ToggleOptionsRepeat.AutoSize = true;
             this.ToggleOptionsRepeat.Checked = true;
             this.ToggleOptionsRepeat.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ToggleOptionsRepeat.Location = new System.Drawing.Point(99, 19);
+            this.ToggleOptionsRepeat.Location = new System.Drawing.Point(94, 23);
             this.ToggleOptionsRepeat.Name = "ToggleOptionsRepeat";
             this.ToggleOptionsRepeat.Size = new System.Drawing.Size(80, 17);
             this.ToggleOptionsRepeat.TabIndex = 2;
@@ -246,6 +256,12 @@
             // 
             // TabMediaInfo
             // 
+            this.TabMediaInfo.Controls.Add(this.LabelEncodingValue);
+            this.TabMediaInfo.Controls.Add(this.LabelEncoding);
+            this.TabMediaInfo.Controls.Add(this.LabelBitRateValue);
+            this.TabMediaInfo.Controls.Add(this.LabelBitRate);
+            this.TabMediaInfo.Controls.Add(this.LabelSampleRateValue);
+            this.TabMediaInfo.Controls.Add(this.LabelSampleRate);
             this.TabMediaInfo.HorizontalScrollbarBarColor = true;
             this.TabMediaInfo.Location = new System.Drawing.Point(4, 35);
             this.TabMediaInfo.Name = "TabMediaInfo";
@@ -270,6 +286,7 @@
             // metroPanel2
             // 
             this.metroPanel2.BorderStyle = MetroFramework.Drawing.MetroBorderStyle.FixedSingle;
+            this.metroPanel2.Controls.Add(this.SpinnerListBox);
             this.metroPanel2.Controls.Add(this.ButtonNext);
             this.metroPanel2.Controls.Add(this.ButtonPrevious);
             this.metroPanel2.Controls.Add(this.ButtonRemove);
@@ -302,7 +319,6 @@
             this.ButtonNext.Size = new System.Drawing.Size(75, 23);
             this.ButtonNext.TabIndex = 12;
             this.ButtonNext.Text = "Next";
-            this.ButtonNext.Click += new System.EventHandler(this.ButtonNext_Click);
             // 
             // ButtonPrevious
             // 
@@ -311,7 +327,6 @@
             this.ButtonPrevious.Size = new System.Drawing.Size(75, 23);
             this.ButtonPrevious.TabIndex = 11;
             this.ButtonPrevious.Text = "Prev";
-            this.ButtonPrevious.Click += new System.EventHandler(this.ButtonPrevious_Click);
             // 
             // ButtonRemove
             // 
@@ -336,7 +351,6 @@
             this.ButtonStop.Size = new System.Drawing.Size(75, 23);
             this.ButtonStop.TabIndex = 7;
             this.ButtonStop.Text = "Stop";
-            this.ButtonStop.Click += new System.EventHandler(this.ButtonStop_Click);
             // 
             // ButtonPause
             // 
@@ -345,7 +359,6 @@
             this.ButtonPause.Size = new System.Drawing.Size(75, 23);
             this.ButtonPause.TabIndex = 6;
             this.ButtonPause.Text = "Pause";
-            this.ButtonPause.Click += new System.EventHandler(this.ButtonPause_Click);
             // 
             // ButtonPlay
             // 
@@ -354,7 +367,6 @@
             this.ButtonPlay.Size = new System.Drawing.Size(75, 23);
             this.ButtonPlay.TabIndex = 5;
             this.ButtonPlay.Text = "Play";
-            this.ButtonPlay.Click += new System.EventHandler(this.ButtonPlay_Click);
             // 
             // ButtonOpen
             // 
@@ -363,11 +375,10 @@
             this.ButtonOpen.Size = new System.Drawing.Size(75, 23);
             this.ButtonOpen.TabIndex = 4;
             this.ButtonOpen.Text = "Open";
-            this.ButtonOpen.Click += new System.EventHandler(this.ButtonOpen_Click);
             // 
             // ListBoxPlayList
             // 
-            this.ListBoxPlayList.FormattingEnabled = true;
+            this.ListBoxPlayList.CausesValidation = false;
             this.ListBoxPlayList.Location = new System.Drawing.Point(13, 171);
             this.ListBoxPlayList.Name = "ListBoxPlayList";
             this.ListBoxPlayList.ScrollAlwaysVisible = true;
@@ -412,26 +423,105 @@
             this.TrackBarVolume.Size = new System.Drawing.Size(177, 23);
             this.TrackBarVolume.TabIndex = 2;
             this.TrackBarVolume.Text = "Volume Control";
-            this.TrackBarVolume.Scroll += new System.Windows.Forms.ScrollEventHandler(this.TrackBarVolume_Scroll);
             // 
             // TimerUpdate
             // 
             this.TimerUpdate.Enabled = true;
             this.TimerUpdate.Interval = 20;
-            this.TimerUpdate.Tick += new System.EventHandler(this.TimerUpdate_Tick);
+            this.TimerUpdate.Tick += new System.EventHandler(this.EventUpdateForm);
+            // 
+            // SpinnerListBox
+            // 
+            this.SpinnerListBox.Location = new System.Drawing.Point(81, 288);
+            this.SpinnerListBox.Maximum = 100;
+            this.SpinnerListBox.Name = "SpinnerListBox";
+            this.SpinnerListBox.Size = new System.Drawing.Size(100, 100);
+            this.SpinnerListBox.Speed = 0.5F;
+            this.SpinnerListBox.Spinning = false;
+            this.SpinnerListBox.TabIndex = 13;
+            this.SpinnerListBox.Visible = false;
+            // 
+            // RadioButtonKeysBound
+            // 
+            this.RadioButtonKeysBound.AutoSize = true;
+            this.RadioButtonKeysBound.Enabled = false;
+            this.RadioButtonKeysBound.Location = new System.Drawing.Point(9, 577);
+            this.RadioButtonKeysBound.Name = "RadioButtonKeysBound";
+            this.RadioButtonKeysBound.Size = new System.Drawing.Size(66, 15);
+            this.RadioButtonKeysBound.TabIndex = 1;
+            this.RadioButtonKeysBound.TabStop = true;
+            this.RadioButtonKeysBound.Text = "Hotkeys";
+            this.RadioButtonKeysBound.UseVisualStyleBackColor = true;
+            // 
+            // LabelSampleRate
+            // 
+            this.LabelSampleRate.AutoSize = true;
+            this.LabelSampleRate.Location = new System.Drawing.Point(2, 22);
+            this.LabelSampleRate.Name = "LabelSampleRate";
+            this.LabelSampleRate.Size = new System.Drawing.Size(86, 19);
+            this.LabelSampleRate.TabIndex = 2;
+            this.LabelSampleRate.Text = "Sample Rate:";
+            // 
+            // LabelSampleRateValue
+            // 
+            this.LabelSampleRateValue.AutoSize = true;
+            this.LabelSampleRateValue.Location = new System.Drawing.Point(82, 23);
+            this.LabelSampleRateValue.Name = "LabelSampleRateValue";
+            this.LabelSampleRateValue.Size = new System.Drawing.Size(37, 19);
+            this.LabelSampleRateValue.TabIndex = 3;
+            this.LabelSampleRateValue.Text = " N/A";
+            // 
+            // LabelBitRateValue
+            // 
+            this.LabelBitRateValue.AutoSize = true;
+            this.LabelBitRateValue.Location = new System.Drawing.Point(54, 43);
+            this.LabelBitRateValue.Name = "LabelBitRateValue";
+            this.LabelBitRateValue.Size = new System.Drawing.Size(37, 19);
+            this.LabelBitRateValue.TabIndex = 5;
+            this.LabelBitRateValue.Text = " N/A";
+            // 
+            // LabelBitRate
+            // 
+            this.LabelBitRate.AutoSize = true;
+            this.LabelBitRate.Location = new System.Drawing.Point(2, 42);
+            this.LabelBitRate.Name = "LabelBitRate";
+            this.LabelBitRate.Size = new System.Drawing.Size(57, 19);
+            this.LabelBitRate.TabIndex = 4;
+            this.LabelBitRate.Text = "Bit Rate:";
+            // 
+            // LabelEncodingValue
+            // 
+            this.LabelEncodingValue.AutoSize = true;
+            this.LabelEncodingValue.Location = new System.Drawing.Point(63, 63);
+            this.LabelEncodingValue.Name = "LabelEncodingValue";
+            this.LabelEncodingValue.Size = new System.Drawing.Size(37, 19);
+            this.LabelEncodingValue.TabIndex = 7;
+            this.LabelEncodingValue.Text = " N/A";
+            // 
+            // LabelEncoding
+            // 
+            this.LabelEncoding.AutoSize = true;
+            this.LabelEncoding.Location = new System.Drawing.Point(2, 62);
+            this.LabelEncoding.Name = "LabelEncoding";
+            this.LabelEncoding.Size = new System.Drawing.Size(66, 19);
+            this.LabelEncoding.TabIndex = 6;
+            this.LabelEncoding.Text = "Encoding:";
             // 
             // MetroAudioForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = MetroFramework.Drawing.MetroBorderStyle.FixedSingle;
+            this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(800, 600);
+            this.Controls.Add(this.RadioButtonKeysBound);
             this.Controls.Add(this.metroPanel1);
+            this.DoubleBuffered = false;
             this.MaximizeBox = false;
             this.Name = "MetroAudioForm";
             this.Resizable = false;
             this.Text = "Metro Audio:";
-            this.Load += new System.EventHandler(this.MetroAudioForm_Load);
+            this.Load += new System.EventHandler(this.EventFormLoad);
             ((System.ComponentModel.ISupportInitialize)(this.MetroStyleManager)).EndInit();
             this.metroPanel1.ResumeLayout(false);
             this.metroPanel4.ResumeLayout(false);
@@ -440,46 +530,58 @@
             this.TabControlMedia.ResumeLayout(false);
             this.TabPlayerOptions.ResumeLayout(false);
             this.TabPlayerOptions.PerformLayout();
+            this.TabMediaInfo.ResumeLayout(false);
+            this.TabMediaInfo.PerformLayout();
             this.metroPanel2.ResumeLayout(false);
             this.metroPanel2.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private MetroFramework.Controls.MetroPanel metroPanel1;
-        private MetroFramework.Controls.MetroTrackBar TrackBarVolume;
-        private MetroFramework.Controls.MetroPanel metroPanel2;
-        private MetroFramework.Controls.MetroTextBox TextBoxFilter;
-        private MetroFramework.Controls.MetroPanel metroPanel3;
-        private MetroFramework.Controls.MetroPanel metroPanel4;
-        private MetroFramework.Controls.MetroLabel LabelCurrentlyPlaying;
-        private MetroFramework.Controls.MetroTrackBar TrackBarProgress;
-        private MetroFramework.Controls.MetroLabel LabelVolume;
-        private MetroFramework.Controls.MetroLabel LabelFilter;
-        private MetroFramework.Controls.MetroLabel LabelCurrentMedia;
-        private System.Windows.Forms.ListBox ListBoxPlayList;
-        private MetroFramework.Controls.MetroButton ButtonStop;
-        private MetroFramework.Controls.MetroButton ButtonPause;
-        private MetroFramework.Controls.MetroButton ButtonPlay;
-        private MetroFramework.Controls.MetroButton ButtonOpen;
-        private MetroFramework.Controls.MetroTabControl TabControlMedia;
-        private MetroFramework.Controls.MetroTabPage TabMediaInfo;
-        private MetroFramework.Controls.MetroTabPage TabMediaOptions;
-        private MetroFramework.Controls.MetroTabPage TabPlayerOptions;
-        private MetroFramework.Controls.MetroLabel LabelOptionsRepeat;
-        private MetroFramework.Controls.MetroToggle ToggleOptionsRepeat;
-        private MetroFramework.Controls.MetroLabel LabelOptionsShuffle;
-        private MetroFramework.Controls.MetroToggle ToggleOptionsShuffle;
-        private MetroFramework.Controls.MetroComboBox ComboBoxOptionsTheme;
-        private MetroFramework.Controls.MetroLabel LabelOptionsTheme;
         internal MetroFramework.Components.MetroStyleManager MetroStyleManager;
-        private MetroFramework.Controls.MetroButton ButtonSave;
-        private MetroFramework.Controls.MetroButton ButtonRemove;
-        private MetroFramework.Controls.MetroButton ButtonNext;
-        private MetroFramework.Controls.MetroButton ButtonPrevious;
-        private System.Windows.Forms.Timer TimerUpdate;
+        internal MetroFramework.Controls.MetroPanel metroPanel1;
+        internal MetroFramework.Controls.MetroTrackBar TrackBarVolume;
+        internal MetroFramework.Controls.MetroPanel metroPanel2;
+        internal MetroFramework.Controls.MetroTextBox TextBoxFilter;
+        internal MetroFramework.Controls.MetroPanel metroPanel3;
+        internal MetroFramework.Controls.MetroPanel metroPanel4;
+        internal MetroFramework.Controls.MetroLabel LabelCurrentlyPlaying;
+        internal MetroFramework.Controls.MetroTrackBar TrackBarProgress;
+        internal MetroFramework.Controls.MetroLabel LabelVolume;
+        internal MetroFramework.Controls.MetroLabel LabelFilter;
+        internal MetroFramework.Controls.MetroLabel LabelCurrentMedia;
+        internal System.Windows.Forms.ListBox ListBoxPlayList;
+        internal MetroFramework.Controls.MetroButton ButtonStop;
+        internal MetroFramework.Controls.MetroButton ButtonPause;
+        internal MetroFramework.Controls.MetroButton ButtonPlay;
+        internal MetroFramework.Controls.MetroButton ButtonOpen;
+        internal MetroFramework.Controls.MetroTabControl TabControlMedia;
+        internal MetroFramework.Controls.MetroTabPage TabMediaInfo;
+        internal MetroFramework.Controls.MetroTabPage TabMediaOptions;
+        internal MetroFramework.Controls.MetroTabPage TabPlayerOptions;
+        internal MetroFramework.Controls.MetroLabel LabelOptionsRepeat;
+        internal MetroFramework.Controls.MetroToggle ToggleOptionsRepeat;
+        internal MetroFramework.Controls.MetroLabel LabelOptionsShuffle;
+        internal MetroFramework.Controls.MetroToggle ToggleOptionsShuffle;
+        internal MetroFramework.Controls.MetroComboBox ComboBoxOptionsTheme;
+        internal MetroFramework.Controls.MetroLabel LabelOptionsTheme;
+        internal MetroFramework.Controls.MetroButton ButtonSave;
+        internal MetroFramework.Controls.MetroButton ButtonRemove;
+        internal MetroFramework.Controls.MetroButton ButtonNext;
+        internal MetroFramework.Controls.MetroButton ButtonPrevious;
+        internal System.Windows.Forms.Timer TimerUpdate;
+        public System.ComponentModel.BackgroundWorker BackgroundWorker;
+        public MetroFramework.Controls.MetroProgressSpinner SpinnerListBox;
+        private MetroFramework.Controls.MetroRadioButton RadioButtonKeysBound;
+        private MetroFramework.Controls.MetroLabel LabelSampleRate;
+        internal MetroFramework.Controls.MetroLabel LabelSampleRateValue;
+        internal MetroFramework.Controls.MetroLabel LabelBitRateValue;
+        private MetroFramework.Controls.MetroLabel LabelBitRate;
+        internal MetroFramework.Controls.MetroLabel LabelEncodingValue;
+        private MetroFramework.Controls.MetroLabel LabelEncoding;
     }
 }
 
